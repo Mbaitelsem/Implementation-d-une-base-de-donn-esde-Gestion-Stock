@@ -1,0 +1,100 @@
+
+creation des tables
+
+
+                         CREATE TABLE service (
+						 id_servi  serial PRIMARY KEY not null,
+						  intitule_servi varchar(120),
+						  nom_respo VARCHAR(100),
+						  prenom_respo VARCHAR(100)  
+						);
+						
+			  CREATE TABLE categorie (
+						 id_cat  serial PRIMARY KEY not null,
+						  libellé_Cat TEXT 
+						);
+						
+			  CREATE TABLE fournisseur (
+						        id_fournisseur  serial PRIMARY KEY not null,
+						        nom_fournisseur VARCHAR(100),
+						        prenom_fournisseur VARCHAR(100),
+						        Adresse_fournisseur varchar(120),
+						        num_compte varchar(20),  
+						        num_RC varchar(20),
+						        num_tel varchar(20)
+						);
+						
+						
+						drop table fournisseur;
+						
+						
+						
+creation des tables avec foreign key
+                                    
+                                    
+                                    CREATE TABLE employe (
+							  id_emp  serial PRIMARY KEY not null,
+							  nom_emp VARCHAR(100) NOT NULL,
+							  prenom_emp VARCHAR(100) NOT NULL,
+							  grade_emp VARCHAR(45) NOT NULL,
+							  fonction_emp VARCHAR(100) NOT NULL,
+							  service_id INT NOT NULL,
+							  description TEXT,
+							  FOREIGN KEY (service_id) REFERENCES service (id_servi)
+						);
+						
+				     CREATE TABLE article (
+							  id_art  serial PRIMARY KEY not null,
+							  designation_art VARCHAR(100) NOT NULL,
+							  quantite_stock VARCHAR(100) NOT NULL,
+							  Date_stock varchar(45) NOT NULL,
+							  seuil_art VARCHAR(100) NOT NULL,
+							  type_art VARCHAR(100) NOT NULL,
+							  cat_id INT NOT NULL,
+							  FOREIGN KEY (cat_id) REFERENCES categorie (id_cat)
+						         );
+						
+                                   CREATE TABLE affectation (
+							  id_aff  serial PRIMARY KEY not null,
+							  Date_aff varchar(45) NOT NULL,
+							  employe_id INT NOT NULL,
+							  description TEXT,
+							  FOREIGN KEY (employe_id) REFERENCES employe (id_emp)
+						       );
+						
+					
+				      CREATE TABLE commande (
+							  id_com  serial PRIMARY KEY not null,
+							  Date_com varchar(45) NOT NULL,
+							  fournisseur_id INT NOT NULL,
+							  description TEXT,
+							  FOREIGN KEY (fournisseur_id) REFERENCES fournisseur (id_fournisseur)
+						        );
+						
+				     CREATE TABLE sortie (
+							  id_sor  INT serial PRIMARY KEY not null,
+							  Date_sor varchar(45) NOT NULL,
+							  employe_id INT NOT NULL,
+							  description TEXT,
+							  FOREIGN KEY (employe_id) REFERENCES employe (id_emp)
+						        );
+
+
+creation des tables composes
+
+						
+						CREATE TABLE se_refere ( 
+						                        id  serial PRIMARY KEY not null,
+						                        id_sor integer REFERENCES sortie,
+						                        id_art integer REFERENCES article
+						                       );
+						                       
+						                       
+					        CREATE TABLE concerner ( 
+						                        id  serial PRIMARY KEY not null,
+						                        id_aff integer REFERENCES affectation,
+						                        id_art integer REFERENCES article
+						                       );
+						
+						
+				    
